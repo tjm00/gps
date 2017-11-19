@@ -92,7 +92,7 @@ func (d *Device) Close() {
 // Newly added tokens are currently ignored.
 var FixTokens = map[string][]string{
   "$GPGGA": []string{"_", "Time", "Lat", "Lat", "Lon", "Lon", "Quality", "Satellites", "_", "Alt"},
-  "$GPRMC": []string{"_", "Time", "Status", "Lat", "Lat", "Lon", "Lon", "Speed", "_", "_", "TrackAngle", "TrackAngle"},
+  "$GPRMC": []string{"_", "Time", "Status", "Lat", "Lat", "Lon", "Lon", "Speed", "TrackAngle", "_", "_", "_"},
 }
 
 func watchDevice(d *Device) {
@@ -149,7 +149,7 @@ func watchDevice(d *Device) {
       if isRMC {
         hasRMC = true
         d.nextFix.Speed = parseFloat(tokenized["Speed"])
-        d.nextFix.TrackAngle = parseLatLon(tokenized["TrackAngle"])
+        d.nextFix.TrackAngle = parseFloat(tokenized["TrackAngle"])
       }
 
       if hasGGA && hasRMC && !d.nextFix.Equals(d.Fix) {
